@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QtCutPaste", "QtCutPaste\QtCutPaste.vcxproj", "{B12702AD-ABFB-343A-A199-8E24837244A3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CutPaste", "E:\4t curs\Graficos Avanzados\Ejercicios\CutPaste\CutPaste.vcxproj", "{9AB3CFCA-4716-391D-B68C-2C1DCC8CBB0F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Debug|x64.ActiveCfg = Debug|x64
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Debug|x64.Build.0 = Debug|x64
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|x64.ActiveCfg = Release|x64
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|x64.Build.0 = Release|x64
+		{9AB3CFCA-4716-391D-B68C-2C1DCC8CBB0F}.Debug|x64.ActiveCfg = Debug|x64
+		{9AB3CFCA-4716-391D-B68C-2C1DCC8CBB0F}.Debug|x64.Build.0 = Debug|x64
+		{9AB3CFCA-4716-391D-B68C-2C1DCC8CBB0F}.Release|x64.ActiveCfg = Release|x64
+		{9AB3CFCA-4716-391D-B68C-2C1DCC8CBB0F}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A9EB914A-963C-4E7A-A396-E5FD7E5448C5}
+	EndGlobalSection
+EndGlobal
