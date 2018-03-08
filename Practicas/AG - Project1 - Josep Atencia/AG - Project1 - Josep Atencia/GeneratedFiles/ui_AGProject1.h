@@ -65,12 +65,16 @@ public:
     {
         if (AGProject1Class->objectName().isEmpty())
             AGProject1Class->setObjectName(QStringLiteral("AGProject1Class"));
-        AGProject1Class->resize(517, 398);
+        AGProject1Class->setEnabled(true);
+        AGProject1Class->resize(517, 421);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(AGProject1Class->sizePolicy().hasHeightForWidth());
         AGProject1Class->setSizePolicy(sizePolicy);
+        AGProject1Class->setMinimumSize(QSize(517, 421));
+        AGProject1Class->setMaximumSize(QSize(517, 421));
+        AGProject1Class->setAnimated(true);
         centralWidget = new QWidget(AGProject1Class);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout = new QGridLayout(centralWidget);
@@ -101,6 +105,7 @@ public:
 
         bar_A_box = new QSpinBox(centralWidget);
         bar_A_box->setObjectName(QStringLiteral("bar_A_box"));
+        bar_A_box->setCursor(QCursor(Qt::PointingHandCursor));
 
         horizontalLayout->addWidget(bar_A_box);
 
@@ -117,6 +122,7 @@ public:
 
         bar_B_box = new QSpinBox(centralWidget);
         bar_B_box->setObjectName(QStringLiteral("bar_B_box"));
+        bar_B_box->setCursor(QCursor(Qt::PointingHandCursor));
 
         horizontalLayout_2->addWidget(bar_B_box);
 
@@ -141,6 +147,7 @@ public:
 
         A_color_button = new QPushButton(centralWidget);
         A_color_button->setObjectName(QStringLiteral("A_color_button"));
+        A_color_button->setCursor(QCursor(Qt::PointingHandCursor));
         A_color_button->setAutoFillBackground(true);
 
         horizontalLayout_3->addWidget(A_color_button);
@@ -158,6 +165,7 @@ public:
 
         B_color_button = new QPushButton(centralWidget);
         B_color_button->setObjectName(QStringLiteral("B_color_button"));
+        B_color_button->setCursor(QCursor(Qt::PointingHandCursor));
         B_color_button->setAutoFillBackground(true);
 
         horizontalLayout_4->addWidget(B_color_button);
@@ -178,6 +186,7 @@ public:
         resolution_box->addItem(QString());
         resolution_box->addItem(QString());
         resolution_box->setObjectName(QStringLiteral("resolution_box"));
+        resolution_box->setCursor(QCursor(Qt::PointingHandCursor));
         resolution_box->setEditable(false);
 
         verticalLayout_3->addWidget(resolution_box);
@@ -188,6 +197,7 @@ public:
 
         save_button = new QPushButton(centralWidget);
         save_button->setObjectName(QStringLiteral("save_button"));
+        save_button->setCursor(QCursor(Qt::PointingHandCursor));
 
         verticalLayout_3->addWidget(save_button);
 

@@ -10,6 +10,7 @@ AG1graphic::AG1graphic(QWidget *parent):QFrame(parent)
 	setStyleSheet("background-color:white;");
 }
 
+//Paint methods------------------------------------
 void AG1graphic::paintEvent(QPaintEvent *event)
 {
 
@@ -36,10 +37,11 @@ void AG1graphic::PaintGraph(QPainter& painter)
 	painter.drawRect(0,0, res_w, res_h);
 
 	painter.setPen(Qt::black);
+
 	//Lines
-	painter.drawLine(left_line - 5, bottom_line, left_line + 250, bottom_line);//Horizontal Line
-	painter.drawLine(left_line, bottom_line + 5, left_line, bottom_line - 275);//Vertical Line
-	painter.drawLine(left_line - 5, bottom_line - max_height, left_line, bottom_line - max_height);
+	painter.drawLine(left_line - 5, bottom_line, left_line + 250, bottom_line);                     //Horizontal Line
+	painter.drawLine(left_line, bottom_line + 5, left_line, bottom_line - 275);						//Vertical Line
+	painter.drawLine(left_line - 5, bottom_line - max_height, left_line, bottom_line - max_height); //100 - Line
 
 	//Labels
 	painter.setFont(QFont("Arial", 10));
@@ -52,43 +54,47 @@ void AG1graphic::PaintGraph(QPainter& painter)
 
 	//Bars
 	painter.setBrush(a_color);
-	barA.setRect(100, bottom_line - a_height, 50, a_height);
+	barA.setRect(100, bottom_line - a_height, 50, a_height); //A
 	painter.drawRect(barA);
 
 	painter.setBrush(b_color);
-	barB.setRect(200, bottom_line - b_height, 50, b_height);
+	barB.setRect(200, bottom_line - b_height, 50, b_height); //B
 	painter.drawRect(barB);
 }
+//-------------------------------------------------------------
 
+//Bar values methods-------------------
 void AG1graphic::SetAValue(int a)
 {
-	a_value = a;
-    a_height = int(float(250) / 100 * a_value);
+    a_height = int(float(250) / 100 * a);
 
 	repaint();
 	
 }
 void AG1graphic::SetBValue(int b)
 {
-	b_value = b;
-	b_height = int(float(250) / 100 * b_value);
+	b_height = int(float(250) / 100 * b);
 
 	repaint();
 }
+//--------------------------------------
 
-void AG1graphic::SetAColor(QColor& a)
+//Bar color methods---------------------
+void AG1graphic::SetAColor(const QColor& a)
 {
 	a_color = a;
 
 	repaint();
 }
-void AG1graphic::SetBColor(QColor& b)
+void AG1graphic::SetBColor(const QColor& b)
 {
 	b_color = b;
 
 	repaint();
 }
+//--------------------------------------
 
+//Final image methods-------------------------------------------
 void AG1graphic::ChangeResolution(int i)
 {
 	switch (i)
@@ -125,4 +131,4 @@ void AG1graphic::SaveImage()
 	image.save(imagePath);
 
 }
-
+//---------------------------------------------------------------

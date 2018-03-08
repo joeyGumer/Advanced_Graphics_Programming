@@ -2,12 +2,15 @@
 <ui version="4.0">
  <class>AGProject1Class</class>
  <widget class="QMainWindow" name="AGProject1Class">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>517</width>
-    <height>398</height>
+    <height>421</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -16,8 +19,23 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>517</width>
+    <height>421</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>517</width>
+    <height>421</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>AGProject1</string>
+  </property>
+  <property name="animated">
+   <bool>true</bool>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -44,7 +62,11 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="bar_A_box"/>
+             <widget class="QSpinBox" name="bar_A_box">
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -58,7 +80,11 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="bar_B_box"/>
+             <widget class="QSpinBox" name="bar_B_box">
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -82,6 +108,9 @@
           </item>
           <item>
            <widget class="QPushButton" name="A_color_button">
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
             <property name="autoFillBackground">
              <bool>true</bool>
             </property>
@@ -103,6 +132,9 @@
           </item>
           <item>
            <widget class="QPushButton" name="B_color_button">
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
             <property name="autoFillBackground">
              <bool>true</bool>
             </property>
@@ -124,6 +156,9 @@
       </item>
       <item>
        <widget class="QComboBox" name="resolution_box">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
         <property name="editable">
          <bool>false</bool>
         </property>
@@ -162,6 +197,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="save_button">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
         <property name="text">
          <string>Save Chart</string>
         </property>

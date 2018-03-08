@@ -6,15 +6,14 @@ AGProject1::AGProject1(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	ui.graph_layout;
-
+	//Create code widgets
 	graphic = new AG1graphic(this);
 	ui.graph_layout->addWidget(graphic);
 
-	color_dialog = new QColorDialog(ui.A_color_button);
+	color_dialog = new QColorDialog(this);
 	
 
-
+	//Connect widgets
 	connect(ui.bar_A_box, SIGNAL(valueChanged(int)), graphic, SLOT(SetAValue(int)));
 	connect(ui.bar_B_box, SIGNAL(valueChanged(int)), graphic, SLOT(SetBValue(int)));
 
@@ -36,7 +35,7 @@ AGProject1::AGProject1(QWidget *parent)
 
 }
 
-
+//Color change methods------------------------
 void AGProject1::openAdialog()
 {
 	QColor col = Qt::white;
@@ -73,3 +72,4 @@ void AGProject1::SetColor(QColor& col, int button)
 			
 	}
 }
+//--------------------------

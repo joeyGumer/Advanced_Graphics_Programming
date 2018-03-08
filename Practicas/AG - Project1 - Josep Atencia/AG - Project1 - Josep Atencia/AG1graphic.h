@@ -13,13 +13,13 @@ public:
 
 	void PaintGraph(QPainter& p);
 
+	void SetAColor(const QColor& a);
+	void SetBColor(const QColor& b);
+
 	public slots:
 
 	void SetAValue(int a);
 	void SetBValue(int b);
-
-	void SetAColor(QColor& a);
-	void SetBColor(QColor& b);
 
 	void ChangeResolution(int i);
 	void SaveImage();
@@ -28,8 +28,6 @@ protected:
 	void paintEvent(QPaintEvent *event);
 
 private:
-	int a_value = 50;
-	int b_value = 50;
 	int a_height = 50;
 	int b_height = 50;
 
