@@ -56,7 +56,7 @@ public:
     QComboBox *resolution_box;
     QSpacerItem *verticalSpacer;
     QPushButton *save_button;
-    QWidget *widget;
+    QVBoxLayout *graph_layout;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -65,7 +65,12 @@ public:
     {
         if (AGProject1Class->objectName().isEmpty())
             AGProject1Class->setObjectName(QStringLiteral("AGProject1Class"));
-        AGProject1Class->resize(517, 426);
+        AGProject1Class->resize(517, 398);
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(AGProject1Class->sizePolicy().hasHeightForWidth());
+        AGProject1Class->setSizePolicy(sizePolicy);
         centralWidget = new QWidget(AGProject1Class);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout = new QGridLayout(centralWidget);
@@ -169,7 +174,11 @@ public:
         verticalLayout_3->addWidget(res_label);
 
         resolution_box = new QComboBox(centralWidget);
+        resolution_box->addItem(QString());
+        resolution_box->addItem(QString());
+        resolution_box->addItem(QString());
         resolution_box->setObjectName(QStringLiteral("resolution_box"));
+        resolution_box->setEditable(false);
 
         verticalLayout_3->addWidget(resolution_box);
 
@@ -183,18 +192,13 @@ public:
         verticalLayout_3->addWidget(save_button);
 
 
-        gridLayout->addLayout(verticalLayout_3, 0, 1, 1, 1);
+        gridLayout->addLayout(verticalLayout_3, 0, 2, 1, 1);
 
-        widget = new QWidget(centralWidget);
-        widget->setObjectName(QStringLiteral("widget"));
-        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(widget->sizePolicy().hasHeightForWidth());
-        widget->setSizePolicy(sizePolicy);
-        widget->setAutoFillBackground(true);
+        graph_layout = new QVBoxLayout();
+        graph_layout->setSpacing(6);
+        graph_layout->setObjectName(QStringLiteral("graph_layout"));
 
-        gridLayout->addWidget(widget, 0, 0, 1, 1);
+        gridLayout->addLayout(graph_layout, 0, 0, 1, 2);
 
         AGProject1Class->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(AGProject1Class);
@@ -225,6 +229,11 @@ public:
         bar_B_col_label->setText(QApplication::translate("AGProject1Class", "Bar B", nullptr));
         B_color_button->setText(QString());
         res_label->setText(QApplication::translate("AGProject1Class", "Output Resolution", nullptr));
+        resolution_box->setItemText(0, QApplication::translate("AGProject1Class", "640 x 480", nullptr));
+        resolution_box->setItemText(1, QApplication::translate("AGProject1Class", "800 x 600", nullptr));
+        resolution_box->setItemText(2, QApplication::translate("AGProject1Class", "1024 x 760", nullptr));
+
+        resolution_box->setCurrentText(QApplication::translate("AGProject1Class", "640 x 480", nullptr));
         save_button->setText(QApplication::translate("AGProject1Class", "Save Chart", nullptr));
     } // retranslateUi
 

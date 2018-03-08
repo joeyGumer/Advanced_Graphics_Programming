@@ -115,6 +115,7 @@
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AG1graphic.cpp" />
     <ClCompile Include="AGProject1.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -126,6 +127,9 @@
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="AGProject1.qrc" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="AG1graphic.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
