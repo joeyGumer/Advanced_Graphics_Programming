@@ -28,8 +28,11 @@ AGProject1::AGProject1(QWidget *parent)
 	ui.bar_A_box->setValue(50);
 	ui.bar_B_box->setValue(70);
 
-	SetColor(QColor(Qt::blue), 0);
-	SetColor(QColor(Qt::red), 1);
+	QColor col = Qt::blue;
+	SetColor(col, 0);
+
+	col = Qt::red;
+	SetColor(col, 1);
 
 	ui.resolution_box->setCurrentIndex(0);
 
