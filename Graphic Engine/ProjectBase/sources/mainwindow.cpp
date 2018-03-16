@@ -74,9 +74,9 @@ MainWindow::MainWindow()
 	connect(addNewBasicWindow, &QAction::triggered, this, &MainWindow::onAddNewBasicWindow);
 	setMenuBar(menuBar);
 
-    onAddNew();
+    //onAddNew();
 
-	//onAddNewBasicWindow();
+	onAddNewBasicWindow();
 }
 
 void MainWindow::onAddNew()

@@ -17,6 +17,7 @@ private slots:
 
 private:
 	Ui::BasicWindow m_ui;
+
 	MainWindow* m_mainWindow;
 	BasicGLWidget* m_glWidget;
 };

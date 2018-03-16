@@ -301,7 +301,63 @@ void BasicGLWidget::changeBackgroundColor()
 void BasicGLWidget::createBuffersScene()
 {
 
-	// TO DO: Create the buffers, initialize VAO, VBOs, etc.
+	//VAO
+
+	glGenVertexArrays(1, &m_VAO);
+	glBindVertexArray(m_VAO);
+
+	//VBO vertex positions
+	glm::vec3 v_pos[6] = {
+		glm::vec3( 10.0f, 10.0f, 0.0f),		//0
+		glm::vec3(-10.0f, 10.0f, 0.0f),		//1
+		glm::vec3(-10.0f,-10.0f, 0.0f),		//2
+		glm::vec3( 10.0f, 10.0f, 0.0f),		//0
+		glm::vec3(-10.0f,-10.0f, 0.0f),		//2
+		glm::vec3( 10.0f,-10.0f, 0.0f)		//3
+	};
+
+	glGenBuffers(1, &m_VBOVerts);
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBOVerts);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(v_pos), v_pos, GL_STATIC_DRAW);
+
+	// Enable the attribute m_vertexLoc
+	glVertexAttribPointer(m_vertexLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(m_vertexLoc);
+
+	//VBO vertex normals
+	glm::vec3 v_normals[6] = {
+		glm::vec3(0.0f, 1.0f, 0.0f),
+		glm::vec3(0.0f, 1.0f, 0.0f),
+		glm::vec3(0.0f, 1.0f, 0.0f),
+		glm::vec3(0.0f, 1.0f, 0.0f),
+		glm::vec3(0.0f, 1.0f, 0.0f),
+		glm::vec3(0.0f, 1.0f, 0.0f)
+	};
+
+	glGenBuffers(1, &m_VBONorms);
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBONorms);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(v_normals), v_normals, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(m_normalLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(m_normalLoc);
+
+	//VBO vertex colors
+	glm::vec4 v_colors[4] = {
+		glm::vec4(1.0f, 0.0f, 0.0f, 1.0f),
+		glm::vec4(0.0f, 1.0f, 0.0f, 1.0f),
+		glm::vec4(0.0f, 0.0f, 1.0f, 1.0f),
+		glm::vec4(1.0f, 1.0f, 0.0f, 1.0f),
+	};
+
+	glGenBuffers(1, &m_VBOCols);
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBOCols);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(v_colors), v_colors, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(m_colorLoc, 4, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(m_colorLoc);
+
+	//Unbind VAO
+	glBindVertexArray(0);
 
 }
 
