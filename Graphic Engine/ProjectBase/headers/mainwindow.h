@@ -63,6 +63,7 @@ public:
 
 private slots:
     void onAddNew();
+	void onAddNewBasicWindow();
 };
 
 #endif

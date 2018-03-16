@@ -51,6 +51,7 @@
 
 #include "../headers/mainwindow.h"
 #include "../headers/window.h"
+#include "../headers/basicwindow.h"
 #include <QMenuBar>
 #include <QMenu>
 #include <QMessageBox>
@@ -59,13 +60,23 @@ MainWindow::MainWindow()
 {
     QMenuBar *menuBar = new QMenuBar;
     QMenu *menuWindow = menuBar->addMenu(tr("&Window"));
+
+
     QAction *addNew = new QAction(menuWindow);
     addNew->setText(tr("Add new"));
     menuWindow->addAction(addNew);
     connect(addNew, &QAction::triggered, this, &MainWindow::onAddNew);
     setMenuBar(menuBar);
 
+	QAction *addNewBasicWindow = new QAction(menuWindow);
+	addNewBasicWindow->setText(tr("Add new Basic Window"));
+	menuWindow->addAction(addNewBasicWindow);
+	connect(addNewBasicWindow, &QAction::triggered, this, &MainWindow::onAddNewBasicWindow);
+	setMenuBar(menuBar);
+
     onAddNew();
+
+	//onAddNewBasicWindow();
 }
 
 void MainWindow::onAddNew()
@@ -74,4 +85,12 @@ void MainWindow::onAddNew()
         setCentralWidget(new Window(this));
     else
         QMessageBox::information(0, tr("Cannot add new window"), tr("Already occupied. Undock first."));
+}
+
+void MainWindow::onAddNewBasicWindow()
+{
+	if (!centralWidget())
+		setCentralWidget(new BasicWindow(this));
+	else
+		QMessageBox::information(0, tr("Cannot add new window"), tr("Already occupied. Undock first."));
 }
