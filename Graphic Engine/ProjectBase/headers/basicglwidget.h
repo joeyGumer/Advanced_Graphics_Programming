@@ -19,10 +19,11 @@
 #include "../glm/gtc/matrix_transform.hpp"
 
 
-enum MouseState {
+enum InteractiveState {
 	M_NONE,
-	M_LEFT,
-	M_RIGHT,
+	M_PAN,
+	M_ROTATE,
+	M_ZOOM,
 };
 
 class BasicGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
@@ -89,6 +90,10 @@ private:
 	float m_yPan;
 
 	float m_spPan;
+	float m_spZoom;
+
+	float m_minFov;
+	float m_maxFov;
 
 	// Scene
 	glm::vec3 m_sceneCenter;
@@ -98,13 +103,14 @@ private:
 	bool m_backFaceCulling;
 
 	// Mouse
-	MouseState m_state;
+	InteractiveState m_state;
 	int m_xClick;
 	int m_yClick;
 	float m_xRot;
 	float m_yRot;
 
 	float m_spRot;
+	
 
 	// Shaders
     QOpenGLShaderProgram *m_program;

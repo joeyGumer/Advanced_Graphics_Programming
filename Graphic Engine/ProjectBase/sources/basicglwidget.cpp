@@ -8,6 +8,9 @@
 #include <iostream>
 
 #define PI 3.14159f
+#define DEG2RAD(degrees) degrees * PI / 180.0f
+#define MAX(a, b) (a > b) ? a : b
+#define MIN(a, b) (a < b) ? a : b
 
 BasicGLWidget::BasicGLWidget(QWidget *parent) : QOpenGLWidget(parent)
 {
@@ -45,15 +48,20 @@ BasicGLWidget::BasicGLWidget(QWidget *parent) : QOpenGLWidget(parent)
 	m_yPan = 0.0f;
 
 	m_spPan = 0.1f;
+	m_spZoom = 0.5;
+
+	m_minFov = 15.0f;
+	m_maxFov = 175.0f;
 
 	// Mouse
+	m_state = M_NONE;
+
 	m_xRot = 0.0f;
 	m_yRot = 0.0f;
 	m_xClick = 0;
 	m_yClick = 0;
 
 	m_spRot = PI / 180;
-	//m_doingInteractive = NONE;
 
 }
 
@@ -214,11 +222,10 @@ void BasicGLWidget::mousePressEvent(QMouseEvent *event)
 	switch (event->button())
 	{
 		case Qt::LeftButton:
-			m_state = M_LEFT;
+			m_state = M_PAN;
 			break;
 		case Qt::RightButton:
-			m_state = M_RIGHT;
-
+			m_state = M_ROTATE;
 			break;
 		default:
 			m_state = M_NONE;
@@ -234,17 +241,18 @@ void BasicGLWidget::mouseMoveEvent(QMouseEvent *event)
 	
 	float dX = event->x() - m_xClick;
 	float dY = event->y() - m_yClick;
+
 	// TO DO: Rotation of the scene and PAN
 	if (m_state != M_NONE)
 	{
 		switch (m_state)
 		{
-		case M_LEFT:
+		case M_PAN:
 			m_xPan += dX * m_spPan;
 			m_yPan += -dY * m_spPan;
 			viewTransform();
 			break;
-		case M_RIGHT:
+		case M_ROTATE:
 			m_yRot += dX * m_spRot;
 			m_xRot += dY * m_spRot;
 			break;
@@ -272,8 +280,33 @@ void BasicGLWidget::mouseReleaseEvent(QMouseEvent *event)
 void BasicGLWidget::wheelEvent(QWheelEvent* event)
 {
 
-	// TO DO: Change the fov of the camera to zoom in and out	
+	// TO DO: Change the fov of the camera to zoom in and out
+	
+	int numDegrees = event->delta() / 8;
+	// Number of steps of the wheel
+	//int numSteps = numDegrees / 15;
 
+	// For each step, we zoom in or out 7.5 degrees
+	float numRads = DEG2RAD(numDegrees / 2.0f);
+
+	float min_fov = DEG2RAD(m_minFov);
+	float max_fov = DEG2RAD(m_maxFov);
+
+	if (min_fov <= m_fov && max_fov >= m_fov)
+	{
+		makeCurrent();
+
+		float prev_fov = m_fov;
+		float new_fov = m_fov + numRads * m_spZoom;
+
+		new_fov = MAX(new_fov, min_fov);
+		m_fov = MIN(new_fov, max_fov);
+
+		m_radsZoom += m_fov - prev_fov;
+
+		projectionTransform();
+		update();
+	}
 }
 
 void BasicGLWidget::loadShaders()
