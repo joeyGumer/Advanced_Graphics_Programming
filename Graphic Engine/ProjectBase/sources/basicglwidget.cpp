@@ -7,6 +7,8 @@
 
 #include <iostream>
 
+#define PI 3.14159f
+
 BasicGLWidget::BasicGLWidget(QWidget *parent) : QOpenGLWidget(parent)
 {
 	// To receive key events
@@ -32,8 +34,26 @@ BasicGLWidget::BasicGLWidget(QWidget *parent) : QOpenGLWidget(parent)
 
 
 	// TO DO: Initialize the other attributes
+	//Camera
+	m_ar = 1.0f;
+	m_fov = PI / 3;
+	m_fovIni = m_fov;
+	m_zNear = 1.0f;
+	m_zFar = 100.0f;
+	m_radsZoom = 0.0f;
+	m_xPan = 0.0f;
+	m_yPan = 0.0f;
 
+	m_spPan = 0.1f;
 
+	// Mouse
+	m_xRot = 0.0f;
+	m_yRot = 0.0f;
+	m_xClick = 0;
+	m_yClick = 0;
+
+	m_spRot = PI / 180;
+	//m_doingInteractive = NONE;
 
 }
 
@@ -187,14 +207,58 @@ void BasicGLWidget::keyPressEvent(QKeyEvent *event)
 void BasicGLWidget::mousePressEvent(QMouseEvent *event)
 {
 
+	m_xClick = event->x();
+	m_yClick = event->y();
+
 	// TO DO: Rotation of the scene and PAN
+	switch (event->button())
+	{
+		case Qt::LeftButton:
+			m_state = M_LEFT;
+			break;
+		case Qt::RightButton:
+			m_state = M_RIGHT;
+
+			break;
+		default:
+			m_state = M_NONE;
+			break;
+	}
 
 }
 
+//Overrided functions?
 void BasicGLWidget::mouseMoveEvent(QMouseEvent *event)
 {
+	makeCurrent();
 	
+	float dX = event->x() - m_xClick;
+	float dY = event->y() - m_yClick;
 	// TO DO: Rotation of the scene and PAN
+	if (m_state != M_NONE)
+	{
+		switch (m_state)
+		{
+		case M_LEFT:
+			m_xPan += dX * m_spPan;
+			m_yPan += -dY * m_spPan;
+			viewTransform();
+			break;
+		case M_RIGHT:
+			m_yRot += dX * m_spRot;
+			m_xRot += dY * m_spRot;
+			break;
+		default:
+			break;
+		}
+
+		
+	}
+
+	m_xClick = event->x();
+	m_yClick = event->y();
+
+	update();
 
 }
 
@@ -202,7 +266,7 @@ void BasicGLWidget::mouseReleaseEvent(QMouseEvent *event)
 {
 
 	// TO DO: Rotation of the scene and PAN
-
+	m_state = M_NONE;
 }
 
 void BasicGLWidget::wheelEvent(QWheelEvent* event)
@@ -262,9 +326,12 @@ void BasicGLWidget::projectionTransform()
 	// Set the camera type
 	glm::mat4 proj(1.0f);
 	
+	
+	m_zNear = m_sceneRadius;
+	m_zFar = m_sceneRadius * 3;
 
 	// TO DO: Set the camera parameters 
-	
+	proj = glm::perspective(m_fov, m_ar, m_zNear, m_zFar);
 
 	// Send the matrix to the shader
 	glUniformMatrix4fv(m_projLoc, 1, GL_FALSE, &proj[0][0]);
@@ -285,7 +352,9 @@ void BasicGLWidget::viewTransform()
 
 
 	// TO DO: Camera placement and PAN
-	
+	view = glm::translate(view, m_sceneCenter + glm::vec3(0.0f, 0.0f, -2.0f * m_sceneRadius)); //Set start position
+	view = glm::translate(view, glm::vec3(m_xPan, m_yPan, 0));								//Pan translation
+	//view = glm::translate(view, -m_sceneCenter);
 
 	// Send the matrix to the shader
 	glUniformMatrix4fv(m_viewLoc, 1, GL_FALSE, &view[0][0]);
@@ -342,11 +411,13 @@ void BasicGLWidget::createBuffersScene()
 	glEnableVertexAttribArray(m_normalLoc);
 
 	//VBO vertex colors
-	glm::vec4 v_colors[4] = {
-		glm::vec4(1.0f, 0.0f, 0.0f, 1.0f),
+	glm::vec4 v_colors[6] = {
+		glm::vec4(1.0f, 1.0f, 0.0f, 1.0f),
 		glm::vec4(0.0f, 1.0f, 0.0f, 1.0f),
 		glm::vec4(0.0f, 0.0f, 1.0f, 1.0f),
 		glm::vec4(1.0f, 1.0f, 0.0f, 1.0f),
+		glm::vec4(0.0f, 0.0f, 1.0f, 1.0f),
+		glm::vec4(1.0f, 0.0f, 0.0f, 1.0f),
 	};
 
 	glGenBuffers(1, &m_VBOCols);
@@ -373,8 +444,13 @@ void BasicGLWidget::sceneTransform()
 	glm::mat4 geomTransform(1.0f);
 
 
-	// TO DO: Rotations of the scene
+	// TO DO: Rotations of the scene // Using Euler angles
+	geomTransform = glm::translate(geomTransform, m_sceneCenter);
 
+	geomTransform = glm::rotate(geomTransform, m_xRot, glm::vec3(1.0f, 0.0f, 0.0f));
+	geomTransform = glm::rotate(geomTransform, m_yRot, glm::vec3(0.0f, 1.0f, 0.0f));
+
+	geomTransform = glm::translate(geomTransform, -m_sceneCenter);
 
 	// Send the matrix to the shader
 	glUniformMatrix4fv(m_transLoc, 1, GL_FALSE, &geomTransform[0][0]);
