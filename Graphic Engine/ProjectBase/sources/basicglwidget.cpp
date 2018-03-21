@@ -407,6 +407,11 @@ void BasicGLWidget::changeBackgroundColor()
 {
 
 	// TO DO: Change the background color
+	QColorDialog colDialog;
+
+	m_bkgColor = colDialog.getColor(Qt::white, nullptr);
+
+
 
 }
 
