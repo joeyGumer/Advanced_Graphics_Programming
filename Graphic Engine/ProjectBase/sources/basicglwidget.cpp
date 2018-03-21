@@ -508,6 +508,7 @@ void BasicGLWidget::computeFps()
 {
 
 	// TO DO: Compute the FPS
+	
 
 }
 
@@ -515,5 +516,8 @@ void BasicGLWidget::showFps()
 {
 	
 	// TO DO: Show the FPS
+	QPainter painter(this);
+
+	painter.drawText(0.0f, 10.0f, "fps:  ");
 
 }
