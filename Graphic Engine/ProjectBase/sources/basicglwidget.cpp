@@ -373,8 +373,18 @@ void BasicGLWidget::projectionTransform()
 
 void BasicGLWidget::resetCamera()
 {
+	makeCurrent();
 
 	// TO DO: Reset the camera/view parameters
+	m_xPan = m_yPan = 0.0f;
+	m_xRot = m_yRot = 0.0f;
+	m_radsZoom = 0.0f;
+	m_fov = m_fovIni;
+
+	projectionTransform();
+	viewTransform();
+
+	update();
 
 }
 
