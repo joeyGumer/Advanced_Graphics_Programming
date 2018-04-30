@@ -23,7 +23,15 @@ void main()
 {
 
   // TO DO: Do the computations needed to apply Phong Shading
+  fmatamb = matamb;
+  fmatdiff = matdiff;
+  fmatspec = matspec;
+  fmatshin = matshin;
 
-  vertexOCS = viewTransform * sceneTransform * vec4(vertex, 1);
+  vertexOCS = viewTransform * sceneTransform * vec4(vertex,1);
   gl_Position = projTransform * vertexOCS;
+
+  mat3 normalMatrix = inverse(transpose(mat3(viewTransform * sceneTransform)));
+
+  normalOCS = normalize(vec3(normalMatrix * normal));
 }
