@@ -62,6 +62,7 @@ private:
 	void projectionTransform(); // Type of camera
 	void resetCamera();
 	void viewTransform(); // Position of the camera
+	void FirstPersonControls(int key);
 
 	// Scene
 	void changeBackgroundColor();
@@ -96,6 +97,14 @@ private:
 	float m_xPan;
 	float m_yPan;
 	glm::vec3 m_camPos;
+	
+
+	//First person movement
+	bool m_fpmovement_enabled;
+	float m_xMov;
+	float m_yMov;
+	float m_zMov;
+	float m_speedMov;
 
 	// Scene
 	glm::vec3 m_sceneCenter;

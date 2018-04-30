@@ -30,6 +30,13 @@ PhongGLWidget::PhongGLWidget(QString modelFilename, bool showFps, QWidget *paren
 	m_xPan = 0.0f;
 	m_yPan = 0.0f;
 	m_camPos = glm::vec3(0.0f, 0.0f, -50.0f);
+	
+	//First person movement
+	m_fpmovement_enabled = true;
+	m_xMov = 0.0f;
+	m_yMov = 0.0f;
+	m_zMov = 0.0f;
+	m_speedMov = 2.0f;
 
 	// Scene
 	m_sceneCenter = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -180,6 +187,14 @@ void PhongGLWidget::keyPressEvent(QKeyEvent *event)
 
 
 			break;
+		case Qt::Key_W: 
+		case Qt::Key_S:
+		case Qt::Key_A:
+		case Qt::Key_D:
+		case Qt::Key_Up:
+		case Qt::Key_Down:
+			 FirstPersonControls(event->key());
+			break;
 		case Qt::Key_F:
 			// Enable/Disable frames per second
 			m_showFps = !m_showFps;
@@ -222,10 +237,12 @@ void PhongGLWidget::mousePressEvent(QMouseEvent *event)
 	m_xClick = event->x();
 	m_yClick = event->y();
 
-	if (event->buttons() & Qt::LeftButton) {
+	if (event->buttons() & Qt::LeftButton) 
+	{
 		m_doingInteractive = ROTATE;
 	}
-	else if (event->buttons() & Qt::RightButton){
+	else if (event->buttons() & Qt::RightButton)
+	{
 		m_doingInteractive = PAN;
 	}
 }
@@ -240,7 +257,8 @@ void PhongGLWidget::mouseMoveEvent(QMouseEvent *event)
 		m_xRot += (event->y() - m_yClick) * PI / 180.0f;
 		
 	}
-	else if (m_doingInteractive == PAN) {
+	else if (m_doingInteractive == PAN) 
+	{
 		m_xPan += (event->x() - m_xClick)*m_sceneRadius * 0.005f;
 		m_yPan += (event->y() - m_yClick)*m_sceneRadius * 0.005f;
 		viewTransform();
@@ -259,6 +277,7 @@ void PhongGLWidget::mouseReleaseEvent(QMouseEvent *event)
 
 void PhongGLWidget::wheelEvent(QWheelEvent* event)
 {
+
 	// In many mouses, each step of the wheel is considered 15 degs.
 	int numDegrees = event->delta() / 8;
 	
@@ -271,7 +290,8 @@ void PhongGLWidget::wheelEvent(QWheelEvent* event)
 	float maxFov = DEG2RAD(175.0f);
 	float minFov = DEG2RAD(15.0f);
 
-	if (m_fov >= minFov && m_fov <= maxFov) {
+	if (m_fov >= minFov && m_fov <= maxFov) 
+	{
 		
 		makeCurrent();
 		
@@ -391,6 +411,7 @@ void PhongGLWidget::viewTransform()
 
 	view = glm::translate(view, m_sceneCenter + m_camPos);
 	view = glm::translate(view, glm::vec3(m_xPan, -m_yPan, 0.0f));
+	view = glm::translate(view, glm::vec3(m_xMov, m_yMov, m_zMov));
 	view = glm::translate(view, -m_sceneCenter);
 
 	// Send the matrix to the shader
@@ -563,4 +584,41 @@ void PhongGLWidget::setLighting()
 
 	m_lightCol = glm::vec3(1.0f, 1.0f, 1.0f);
 	glUniform3fv(m_lightColLoc, 1, &m_lightCol[0]);
+}
+
+void PhongGLWidget::enableFirstPersonCamera(bool enabled)
+{
+
+}
+
+void PhongGLWidget::FirstPersonControls(int key)
+{
+	makeCurrent();
+
+	//WARNING: do a dt transform for constant movement
+	switch (key)
+	{
+	case Qt::Key_W:
+		m_zMov += m_speedMov;
+		break;
+	case Qt::Key_S:
+		m_zMov -= m_speedMov;
+		break;
+	case Qt::Key_A:
+		m_xMov += m_speedMov;
+		break;
+	case Qt::Key_D:
+		m_xMov -= m_speedMov;
+		break;
+	case Qt::Key_Up:
+		m_yMov += m_speedMov;
+		break;
+	case Qt::Key_Down:
+		m_yMov -= m_speedMov;
+		break;
+	}
+
+	viewTransform();
+
+	update();
 }
