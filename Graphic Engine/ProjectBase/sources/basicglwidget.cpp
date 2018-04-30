@@ -1,16 +1,14 @@
 #include "../headers/basicglwidget.h"
+#include "../headers/definitions.h"
 #include <QOpenGLShaderProgram>
 #include <QCoreApplication>
 #include <QColorDialog>
 #include <QPainter>
 #include <math.h>
 
+
 #include <iostream>
 
-#define PI 3.14159f
-#define DEG2RAD(degrees) degrees * PI / 180.0f
-#define MAX(a, b) (a > b) ? a : b
-#define MIN(a, b) (a < b) ? a : b
 
 BasicGLWidget::BasicGLWidget(QWidget *parent) : QOpenGLWidget(parent)
 {
@@ -259,8 +257,6 @@ void BasicGLWidget::mouseMoveEvent(QMouseEvent *event)
 		default:
 			break;
 		}
-
-		
 	}
 
 	m_xClick = event->x();

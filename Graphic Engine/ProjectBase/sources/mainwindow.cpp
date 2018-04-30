@@ -52,6 +52,7 @@
 #include "../headers/mainwindow.h"
 #include "../headers/window.h"
 #include "../headers/basicwindow.h"
+#include "../headers/phongwindow.h"
 #include <QMenuBar>
 #include <QMenu>
 #include <QMessageBox>
@@ -74,9 +75,16 @@ MainWindow::MainWindow()
 	connect(addNewBasicWindow, &QAction::triggered, this, &MainWindow::onAddNewBasicWindow);
 	setMenuBar(menuBar);
 
-    //onAddNew();
+	QAction *addNewPhongWindow = new QAction(menuWindow);
+	addNewPhongWindow->setText(tr("Add new Phong Window"));
+	menuWindow->addAction(addNewPhongWindow);
+	connect(addNewPhongWindow, &QAction::triggered, this, &MainWindow::onAddNewPhongWindow);
+	setMenuBar(menuBar);
 
-	onAddNewBasicWindow();
+    //onAddNew();
+	//onAddNewBasicWindow();
+	onAddNewPhongWindow();
+
 }
 
 void MainWindow::onAddNew()
@@ -93,4 +101,13 @@ void MainWindow::onAddNewBasicWindow()
 		setCentralWidget(new BasicWindow(this));
 	else
 		QMessageBox::information(0, tr("Cannot add new window"), tr("Already occupied. Undock first."));
+}
+
+void MainWindow::onAddNewPhongWindow()
+{
+	if (!centralWidget())
+		setCentralWidget(new PhongWindow(this));
+	else
+		QMessageBox::information(0, tr("Cannot add new window"), tr("Already occupied. Undock first"));
+	
 }

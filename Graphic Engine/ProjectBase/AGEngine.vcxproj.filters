@@ -58,6 +58,15 @@
     <ClCompile Include="sources\window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="sources\model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\phongglwidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\phongwindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="headers\basicglwidget.h">
@@ -66,6 +75,9 @@
     <QtMoc Include="headers\basicwindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <ClInclude Include="headers\definitions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <QtMoc Include="headers\glwidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -75,31 +87,35 @@
     <QtMoc Include="headers\mainwindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <ClInclude Include="headers\model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="headers\phongglwidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="headers\phongwindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
     <QtMoc Include="headers\window.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="headers\phongwindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    
-    
-    
-    
-    
-    
-    
-    
     <CustomBuild Include="debug\moc_predefs.h.cbt">
       <Filter>Generated Files</Filter>
     </CustomBuild>
     <CustomBuild Include="release\moc_predefs.h.cbt">
       <Filter>Generated Files</Filter>
     </CustomBuild>
-    
-    
-    
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="forms\basicwindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="forms\phongwindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
