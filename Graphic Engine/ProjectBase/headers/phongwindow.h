@@ -15,6 +15,7 @@ public:
 private slots:
 	void dockUndock();
 	void loadModel();
+	void changeCameraType(int);
 
 private:
 	Ui::PhongWindow m_ui;

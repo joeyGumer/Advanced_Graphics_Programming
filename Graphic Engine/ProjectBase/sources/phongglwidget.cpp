@@ -30,6 +30,7 @@ PhongGLWidget::PhongGLWidget(QString modelFilename, bool showFps, QWidget *paren
 	m_xPan = 0.0f;
 	m_yPan = 0.0f;
 	m_camPos = glm::vec3(0.0f, 0.0f, -50.0f);
+	m_camType = STATIC;
 	
 	//First person movement
 	m_fpmovement_enabled = true;
@@ -251,17 +252,20 @@ void PhongGLWidget::mouseMoveEvent(QMouseEvent *event)
 {
 	makeCurrent();
 
-	if (m_doingInteractive == ROTATE)
+	if (m_camType == STATIC)
 	{
-		m_yRot += (event->x() - m_xClick) * PI / 180.0f;
-		m_xRot += (event->y() - m_yClick) * PI / 180.0f;
-		
-	}
-	else if (m_doingInteractive == PAN) 
-	{
-		m_xPan += (event->x() - m_xClick)*m_sceneRadius * 0.005f;
-		m_yPan += (event->y() - m_yClick)*m_sceneRadius * 0.005f;
-		viewTransform();
+		if (m_doingInteractive == ROTATE)
+		{
+			m_yRot += (event->x() - m_xClick) * PI / 180.0f;
+			m_xRot += (event->y() - m_yClick) * PI / 180.0f;
+
+		}
+		else if (m_doingInteractive == PAN)
+		{
+			m_xPan += (event->x() - m_xClick)*m_sceneRadius * 0.005f;
+			m_yPan += (event->y() - m_yClick)*m_sceneRadius * 0.005f;
+			viewTransform();
+		}
 	}
 
 	m_xClick = event->x();
@@ -588,7 +592,11 @@ void PhongGLWidget::setLighting()
 
 void PhongGLWidget::enableFirstPersonCamera(bool enabled)
 {
-
+	//WARNING: May have to do more changes
+	if (enabled)
+		m_camType = FPS;
+	else
+		m_camType = STATIC;
 }
 
 void PhongGLWidget::FirstPersonControls(int key)

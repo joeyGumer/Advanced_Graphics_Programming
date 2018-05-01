@@ -20,7 +20,8 @@
 
 
 /* Enumerations */
-enum InteractiveAction { NONE, PAN, ROTATE, ZOOM };
+enum InteractiveAction { NONE, PAN, ROTATE, ZOOM,};
+enum CameraType { STATIC, FPS};
 
 
 

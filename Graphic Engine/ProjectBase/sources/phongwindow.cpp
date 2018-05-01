@@ -1,6 +1,7 @@
 #include "../headers/phongglwidget.h"
 #include "../headers/phongwindow.h"
 #include "../headers/mainwindow.h"
+#include "../headers/definitions.h"
 #include <QDesktopWidget>
 #include <QApplication>
 #include <QFileDialog>
@@ -20,6 +21,7 @@ PhongWindow::PhongWindow(MainWindow* mw) :m_mainWindow(mw)
 	
 	connect(m_ui.qUndockButton, SIGNAL(clicked()), this, SLOT(dockUndock()));
 	connect(m_ui.qLoadModelButton, SIGNAL(clicked()), this, SLOT(loadModel()));
+	connect(m_ui.type_box, SIGNAL(currentIndexChanged(int)), SLOT(changeCameraType(int)));
 }
 
 PhongWindow::~PhongWindow()
@@ -77,4 +79,13 @@ void PhongWindow::loadModel()
 	layoutFrame->addWidget(m_glWidget);
 	m_glWidget->show();
 
+}
+
+
+void PhongWindow::changeCameraType(int type)
+{
+	if (type == STATIC)
+		m_glWidget->enableFirstPersonCamera(false);
+	else
+		m_glWidget->enableFirstPersonCamera(true);
 }

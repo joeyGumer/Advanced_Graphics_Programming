@@ -63,6 +63,7 @@ private:
 	void resetCamera();
 	void viewTransform(); // Position of the camera
 	void FirstPersonControls(int key);
+	void firstPerson();
 
 	// Scene
 	void changeBackgroundColor();
@@ -97,6 +98,7 @@ private:
 	float m_xPan;
 	float m_yPan;
 	glm::vec3 m_camPos;
+	CameraType m_camType;
 	
 
 	//First person movement

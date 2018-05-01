@@ -13,11 +13,13 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QComboBox>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QVBoxLayout>
@@ -35,6 +37,11 @@ public:
     QGroupBox *groupBox;
     QGridLayout *gridLayout;
     QPushButton *qLoadModelButton;
+    QGroupBox *camera_box;
+    QGridLayout *gridLayout_2;
+    QHBoxLayout *horizontalLayout;
+    QLabel *type_label;
+    QComboBox *type_box;
     QSpacerItem *verticalSpacer;
     QPushButton *qUndockButton;
 
@@ -82,6 +89,48 @@ public:
 
         verticalLayout->addWidget(groupBox);
 
+        camera_box = new QGroupBox(PhongWindow);
+        camera_box->setObjectName(QStringLiteral("camera_box"));
+        QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(camera_box->sizePolicy().hasHeightForWidth());
+        camera_box->setSizePolicy(sizePolicy1);
+        gridLayout_2 = new QGridLayout(camera_box);
+        gridLayout_2->setSpacing(6);
+        gridLayout_2->setContentsMargins(11, 11, 11, 11);
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        type_label = new QLabel(camera_box);
+        type_label->setObjectName(QStringLiteral("type_label"));
+        QSizePolicy sizePolicy2(QSizePolicy::Minimum, QSizePolicy::Minimum);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(type_label->sizePolicy().hasHeightForWidth());
+        type_label->setSizePolicy(sizePolicy2);
+
+        horizontalLayout->addWidget(type_label);
+
+        type_box = new QComboBox(camera_box);
+        type_box->addItem(QString());
+        type_box->addItem(QString());
+        type_box->setObjectName(QStringLiteral("type_box"));
+        QSizePolicy sizePolicy3(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(type_box->sizePolicy().hasHeightForWidth());
+        type_box->setSizePolicy(sizePolicy3);
+
+        horizontalLayout->addWidget(type_box);
+
+
+        gridLayout_2->addLayout(horizontalLayout, 0, 0, 1, 1);
+
+
+        verticalLayout->addWidget(camera_box);
+
         verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         verticalLayout->addItem(verticalSpacer);
@@ -108,6 +157,11 @@ public:
         PhongWindow->setWindowTitle(QApplication::translate("PhongWindow", "Phong Shading", nullptr));
         groupBox->setTitle(QApplication::translate("PhongWindow", "Model ", nullptr));
         qLoadModelButton->setText(QApplication::translate("PhongWindow", "Load Model", nullptr));
+        camera_box->setTitle(QApplication::translate("PhongWindow", "Camera", nullptr));
+        type_label->setText(QApplication::translate("PhongWindow", "Type", nullptr));
+        type_box->setItemText(0, QApplication::translate("PhongWindow", "Static", nullptr));
+        type_box->setItemText(1, QApplication::translate("PhongWindow", "First person", nullptr));
+
         qUndockButton->setText(QApplication::translate("PhongWindow", "Undock", nullptr));
     } // retranslateUi
 
