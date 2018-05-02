@@ -67,6 +67,12 @@
     <ClCompile Include="sources\phongwindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="sources\texturingglwidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\texturingwindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="headers\basicglwidget.h">
@@ -102,6 +108,12 @@
     <QtMoc Include="headers\phongwindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="headers\texturingglwidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="headers\texturingwindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -116,6 +128,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="forms\phongwindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="forms\texturingwindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

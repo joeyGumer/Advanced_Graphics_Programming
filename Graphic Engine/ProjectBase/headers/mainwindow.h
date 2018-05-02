@@ -65,6 +65,7 @@ private slots:
     void onAddNew();
 	void onAddNewBasicWindow();
 	void onAddNewPhongWindow();
+	void onAddNewTexturingWindow();
 };
 
 #endif

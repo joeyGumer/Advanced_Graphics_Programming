@@ -12,18 +12,20 @@ uniform vec3 lightCol;
 
 out vec4 FragColor;
 
-vec3 ambientLight = vec3(0.2, 0.2, 0.2);
+vec3 ambientLight = vec3(1.0, 1.0, 1.0);
 
 vec3 Lambert (vec3 NormOCS, vec3 L)
 {
   // We assume that vectors are normalized
 
+  //WARNING: comented to check Ambient Oclusion effect
   // Color initialization with the ambient color
   vec3 resultCol = ambientLight * fmatamb;
 
+  
   // Add the diffuse component
-  if (dot (L, NormOCS) > 0)
-    resultCol += lightCol * fmatdiff * dot (L, NormOCS);
+  /*if (dot (L, NormOCS) > 0)
+    resultCol += lightCol * fmatdiff * dot (L, NormOCS);*/
 
   return (resultCol);
 }
@@ -36,7 +38,7 @@ vec3 Phong (vec3 NormOCS, vec3 L, vec4 vertOCS)
   vec3 resultCol = Lambert (NormOCS, L);
 
   // R and V computation
-  if (dot(NormOCS, L) < 0)
+  /*if (dot(NormOCS, L) < 0)
     // There is no specular component
     return resultCol;
 
@@ -48,8 +50,8 @@ vec3 Phong (vec3 NormOCS, vec3 L, vec4 vertOCS)
     return resultCol;
 
   // We add the specular component
-  float shine = pow(max(0.0, dot(R, V)), fmatshin);
-  return (resultCol + fmatspec * lightCol * shine);
+  float shine = pow(max(0.0, dot(R, V)), fmatshin);*/
+  return (resultCol /* + fmatspec * lightCol * shine*/);
 }
 
 void main()

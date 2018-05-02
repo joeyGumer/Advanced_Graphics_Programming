@@ -13,7 +13,7 @@ PhongWindow::PhongWindow(MainWindow* mw) :m_mainWindow(mw)
 	m_ui.setupUi(this);
 
 	// Insert the m_glWidget in the GUI
-	m_glWidget = new PhongGLWidget("./models/Patricio.obj", false);
+	m_glWidget = new PhongGLWidget("./models/Sponza.obj", false);
 	layoutFrame = new QVBoxLayout(m_ui.qGLFrame);
 	layoutFrame->setMargin(0);
 	layoutFrame->addWidget(m_glWidget);

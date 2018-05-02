@@ -53,6 +53,7 @@
 #include "../headers/window.h"
 #include "../headers/basicwindow.h"
 #include "../headers/phongwindow.h"
+#include "../headers/texturingwindow.h"
 #include <QMenuBar>
 #include <QMenu>
 #include <QMessageBox>
@@ -79,6 +80,12 @@ MainWindow::MainWindow()
 	addNewPhongWindow->setText(tr("Add new Phong Window"));
 	menuWindow->addAction(addNewPhongWindow);
 	connect(addNewPhongWindow, &QAction::triggered, this, &MainWindow::onAddNewPhongWindow);
+	setMenuBar(menuBar);
+
+	QAction *addNewTexturingWindow = new QAction(menuWindow);
+	addNewTexturingWindow->setText(tr("Add new Texturing Window"));
+	menuWindow->addAction(addNewTexturingWindow);
+	connect(addNewTexturingWindow, &QAction::triggered, this, &MainWindow::onAddNewTexturingWindow);
 	setMenuBar(menuBar);
 
     //onAddNew();
@@ -110,4 +117,12 @@ void MainWindow::onAddNewPhongWindow()
 	else
 		QMessageBox::information(0, tr("Cannot add new window"), tr("Already occupied. Undock first"));
 	
+}
+
+void MainWindow::onAddNewTexturingWindow()
+{
+	if (!centralWidget())
+		setCentralWidget(new TexturingWindow(this));
+	else
+		QMessageBox::information(0, tr("Cannot add new window"), tr("Already occupied. Undock first"));
 }

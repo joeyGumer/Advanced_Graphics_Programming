@@ -365,8 +365,8 @@ void PhongGLWidget::reloadShaders()
 
 void PhongGLWidget::initCameraParams() 
 {
-	m_camPos = glm::vec3(0.0f, 0.0f, -2.0f * m_sceneRadius);
-	m_zNear = m_sceneRadius;
+	m_camPos = glm::vec3(0.0f, 0.0f, 0.0f/*-2.0f * m_sceneRadius*/);
+	m_zNear = 1.0f /* m_sceneRadius*/ ;
 	m_zFar = 3.0f * m_sceneRadius;
 }
 
@@ -403,6 +403,13 @@ void PhongGLWidget::resetCamera()
 	m_yRot = 0.0f;
 	m_xRotCam = 0.0f;
 	m_yRotCam = 0.0f;
+
+	m_xMov = 0.0f;
+	m_yMov = 0.0f;
+	m_zMov = 0.0f;
+
+	//WARNING: look how to do this better
+	//m_camPos = glm::vec3(0.0f, 0.0f, 0.0f);
 
 	projectionTransform();
 	viewTransform();
