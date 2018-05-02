@@ -1,9 +1,7 @@
 #version 330 core
 
 in vec3 vertex;
-in vec3 normal;
-in vec4 color;
-in vec2 texCoords;
+in vec2 texuv;
 
 uniform mat4 projTransform;
 uniform mat4 viewTransform;

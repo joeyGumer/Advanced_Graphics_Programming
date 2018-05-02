@@ -4,6 +4,7 @@
 #include <QColorDialog>
 #include <QMessageBox>
 #include <QPainter>
+#include <QOpenGLFramebufferObjectFormat>
 #include <math.h>
 
 #include <iostream>
@@ -110,10 +111,14 @@ void PhongGLWidget::initializeGL()
     // aboutToBeDestroyed() signal, instead of the destructor. The emission of
     // the signal will be followed by an invocation of initializeGL() where we
     // can recreate all resources.
+
     connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &PhongGLWidget::cleanup);
     initializeOpenGLFunctions();
  	loadShaders();
+	loadFinalTextureShader();
+	CreateGBuffer();
 	createBuffersModel();
+	CreateQuadBuffer();
 	computeBBoxModel ();
 	computeCenterRadiusScene();
 	initCameraParams();
@@ -124,8 +129,24 @@ void PhongGLWidget::initializeGL()
 
 void PhongGLWidget::paintGL()
 {
+	GeometryRender();
+	LightQuadRender();
 	// FPS computation
 	computeFps();
+
+	
+
+	//m_fbo->bindDefault();
+	// Show FPS if they are enabled 
+	if (m_showFps)
+		showFps();
+}
+
+void PhongGLWidget::GeometryRender()
+{
+	m_fbo->bind();
+	GLenum bufs[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1};
+	glDrawBuffers(2, bufs);
 
 	// Paint the scene
 	glClearColor(m_bkgColor.red() / 255.0f, m_bkgColor.green() / 255.0f, m_bkgColor.blue() / 255.0f, 1.0f);
@@ -134,6 +155,8 @@ void PhongGLWidget::paintGL()
 
 	if (m_backFaceCulling)
 		glEnable(GL_CULL_FACE);
+
+	m_program->bind();
 
 	// Bind the VAO to draw the model
 	glBindVertexArray(m_VAOModel);
@@ -147,11 +170,24 @@ void PhongGLWidget::paintGL()
 	// Unbind the vertex array
 	glBindVertexArray(0);
 
-	// Show FPS if they are enabled 
-	if (m_showFps)
-		showFps();
+	m_fbo->bindDefault();
+
 }
 
+void PhongGLWidget::LightQuadRender()
+{
+	m_finalTextureProgram->bind();
+
+	glBindVertexArray(m_VAOQuad);
+
+	// Draw the Quad
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+
+	// Unbind the vertex array
+	glBindVertexArray(0);
+
+
+}
 void PhongGLWidget::resizeGL(int w, int h)
 {
 	m_width = w;
@@ -356,6 +392,35 @@ void PhongGLWidget::loadShaders()
 	
 }
 
+
+void PhongGLWidget::loadFinalTextureShader()
+{
+	// Declaration of the shaders
+	QOpenGLShader vs(QOpenGLShader::Vertex, this);
+	QOpenGLShader fs(QOpenGLShader::Fragment, this);
+
+	// Load and compile the shaders
+	vs.compileSourceFile("./shaders/finaltexture.vert");
+	fs.compileSourceFile("./shaders/finaltexture.frag");
+
+	// Create the program
+	m_finalTextureProgram = new QOpenGLShaderProgram;
+
+	// Add the shaders
+	m_finalTextureProgram->addShader(&fs);
+	m_finalTextureProgram->addShader(&vs);
+
+	// Link the program
+	m_finalTextureProgram->link();
+
+	// Bind the program (we are gonna use this program)
+	m_finalTextureProgram->bind();
+
+	// Get the attribs locations of the vertex shader
+	m_QuadVertsLoc = glGetAttribLocation(m_finalTextureProgram->programId(), "vertex");
+	m_QuadUVsLoc = glGetAttribLocation(m_finalTextureProgram->programId(), "uv"); 
+}
+
 void PhongGLWidget::reloadShaders()
 {
 	
@@ -465,6 +530,15 @@ void PhongGLWidget::createBuffersModel()
 	glGenBuffers(1, &m_VBOModelNorms);
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBOModelNorms);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*m_model.faces().size() * 3 * 3, m_model.VBO_normals(), GL_STATIC_DRAW);
+
+	// Enable the attribute m_normalLoc
+	glVertexAttribPointer(m_normalLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(m_normalLoc);
+
+	// VBO UVs
+	glGenBuffers(1, &m_VBOModelUVs);
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBOModelUVs);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*m_model.faces().size() * 2 * 3, m_model.VBO_UVs(), GL_STATIC_DRAW);
 
 	// Enable the attribute m_normalLoc
 	glVertexAttribPointer(m_normalLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
@@ -636,4 +710,58 @@ void PhongGLWidget::FirstPersonControls(int key)
 	viewTransform();
 
 	update();
+}
+
+void PhongGLWidget::CreateGBuffer()
+{
+	QOpenGLFramebufferObjectFormat format;
+	format.setAttachment(QOpenGLFramebufferObject::CombinedDepthStencil);
+    m_fbo = new QOpenGLFramebufferObject(m_width, m_height, format);
+	m_fbo->addColorAttachment(m_width, m_height);
+
+}
+
+void PhongGLWidget::CreateQuadBuffer()
+{
+	// VAO creation
+	glGenVertexArrays(1, &m_VAOQuad);
+	glBindVertexArray(m_VAOQuad);
+
+	// VBO vertices positions
+	glm::vec3 verts[6] = {
+		glm::vec3(-1.0f, -1.0f, 0.0f),
+		glm::vec3(1.0f, -1.0f, 0.0f),
+		glm::vec3(-1.0f, 1.0f, 0.0f),
+		glm::vec3(-1.0f, 1.0f, 0.0f),
+		glm::vec3(1.0f, -1.0f, 0.0f),
+		glm::vec3(1.0f, 1.0f, 0.0f)
+	};
+
+	glm::vec2 UVs[6] = {
+		glm::vec2(0.0f, 0.0f),
+		glm::vec2(1.0f, 0.0f),
+		glm::vec2(0.0f, 1.0f),
+		glm::vec2(0.0f, 1.0f),
+		glm::vec2(1.0f, 0.0f),
+		glm::vec2(1.0f, 1.0f)
+	};
+
+	// VBO Vertices
+	glGenBuffers(1, &m_VBOQuadVerts);
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBOQuadVerts);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(verts), verts, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(m_QuadVertsLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(m_QuadVertsLoc);
+
+	// VBO UVs
+	glGenBuffers(1, &m_VBOQuadUVs);
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBOQuadUVs);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(UVs), UVs, GL_STATIC_DRAW);
+
+	// Enable the attribute m_vertexLoc
+	glVertexAttribPointer(m_QuadUVsLoc, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(m_QuadUVsLoc);
+
+	glBindVertexArray(0);
 }

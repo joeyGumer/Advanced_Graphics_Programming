@@ -53,9 +53,16 @@ protected:
 	void wheelEvent(QWheelEvent* event) override;
 
 private:
+	// Painting
+	void GeometryRender();
+	void LightQuadRender();
+
     // Shaders
 	void loadShaders();
+	void loadFinalTextureShader();
 	void reloadShaders();
+	void CreateGBuffer();
+	void CreateQuadBuffer();
 
 	// Camera
 	void initCameraParams();
@@ -119,8 +126,12 @@ private:
 	QString m_modelFilename;
 	glm::vec3 m_modelCenter;
 	float m_modelRadius;
-	GLuint m_VAOModel, m_VBOModelVerts, m_VBOModelNorms;
+	GLuint m_VAOModel, m_VBOModelVerts, m_VBOModelNorms, m_VBOModelUVs;
 	GLuint m_VBOModelMatAmb, m_VBOModelMatDiff, m_VBOModelMatSpec, m_VBOModelMatShin;
+
+	// Quad
+	GLuint m_VAOQuad, m_VBOQuadVerts, m_VBOQuadUVs;
+	GLuint m_QuadVertsLoc, m_QuadUVsLoc;
 
 	// Lights
 	glm::vec4 m_lightPos;
@@ -137,10 +148,14 @@ private:
 
 	// Shaders
     QOpenGLShaderProgram *m_program;
+	QOpenGLShaderProgram *m_finalTextureProgram;
+	QOpenGLFramebufferObject* m_fbo;
 	GLuint m_transLoc, m_projLoc, m_viewLoc;
 	GLuint m_vertexLoc, m_normalLoc;
 	GLuint m_matAmbLoc, m_matDiffLoc, m_matSpecLoc, m_matShinLoc;
 	GLuint m_lightPosLoc, m_lightColLoc;
+
+	
 
 	// FPS
 	QTime m_time;
